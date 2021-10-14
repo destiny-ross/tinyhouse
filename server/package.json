@@ -19,6 +19,7 @@
   },
   "scripts": {
     "start": "nodemon src/index.ts",
+    "seed": "ts-node temp/seed.ts",
     "build": "tsc --project ./"
   }
 }
