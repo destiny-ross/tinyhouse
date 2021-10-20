@@ -1,6 +1,6 @@
-import { ObjectId } from "mongodb";
-import { IResolvers } from "@graphql-tools/utils";
-import { Database, Listing } from "../../../lib/types";
+import { ObjectId } from 'mongodb';
+import { IResolvers } from '@graphql-tools/utils';
+import { Database, Listing } from '../../../lib/types';
 
 export const listingResolvers: IResolvers = {
   Query: {
@@ -9,8 +9,10 @@ export const listingResolvers: IResolvers = {
       _args: {},
       { db }: { db: Database }
     ): Promise<Listing[]> => {
-      return await db.listings.find({}).toArray();
-    }
+      const res = await db.listings.find({}).toArray();
+      console.log(res);
+      return res;
+    },
   },
   Mutation: {
     deleteListing: async (
@@ -19,17 +21,17 @@ export const listingResolvers: IResolvers = {
       { db }: { db: Database }
     ): Promise<Listing> => {
       const deleteRes = await db.listings.findOneAndDelete({
-        _id: new ObjectId(id)
+        _id: new ObjectId(id),
       });
 
       if (!deleteRes.value) {
-        throw new Error("failed to delete listing");
+        throw new Error('failed to delete listing');
       }
 
       return deleteRes.value;
-    }
+    },
   },
   Listing: {
-    id: (listing: Listing): string => listing._id.toString()
-  }
+    id: (listing: Listing): string => listing._id.toString(),
+  },
 };

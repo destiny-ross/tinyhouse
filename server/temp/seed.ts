@@ -1,8 +1,8 @@
-require("dotenv").config();
+require('dotenv').config();
 
-import { ObjectId } from "mongodb";
-import { connectDatabase } from "../src/database";
-import { Listing } from "../src/lib/types";
+import { ObjectId } from 'mongodb';
+import { connectDatabase } from '../src/database';
+import { Listing } from '../src/lib/types';
 
 const seed = async () => {
   try {
@@ -13,25 +13,26 @@ const seed = async () => {
     const listings: Listing[] = [
       {
         _id: new ObjectId(),
-        title: "Clean and fully furnished apartment. 5 min away from CN Tower",
+        title: 'Clean and fully furnished apartment. 5 min away from CN Tower',
         image:
-          "https://res.cloudinary.com/tiny-house/image/upload/v1560641352/mock/Toronto/toronto-listing-1_exv0tf.jpg",
-        address: "3210 Scotchmere Dr W, Toronto, ON, CA",
+          'https://res.cloudinary.com/tiny-house/image/upload/v1560641352/mock/Toronto/toronto-listing-1_exv0tf.jpg',
+        address: '3210 Scotchmere Dr W, Toronto, ON, CA',
         price: 10000,
         numOfGuests: 2,
         numOfBeds: 1,
         numOfBaths: 2,
-        rating: 5
-      }];
+        rating: 5,
+      },
+    ];
 
-      for (const listing of listings) {
+    for (const listing of listings) {
       await db.listings.insertOne(listing);
     }
 
     console.log(`[seed] : success`);
-
+    return;
   } catch (error) {
-    throw new Error("failed to seed database");
+    throw new Error('failed to seed database');
   }
 };
 
