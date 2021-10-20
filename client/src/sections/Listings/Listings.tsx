@@ -1,5 +1,5 @@
 import React from 'react';
-import { server } from '../../lib/api';
+import { server, useQuery } from '../../lib/api';
 import {
   DeleteListingData,
   DeleteListingVariables,
@@ -35,31 +35,37 @@ interface Props {
 }
 
 export const Listings = ({ title }: Props) => {
-  const fetchListings = async () => {
-    const { data } = await server.fetch<ListingsData>({
-      query: LISTINGS,
-    });
-    console.log(data); // check the console to see the listings data from our GraphQL Request!
-  };
+  const { data, refetch } = useQuery<ListingsData>(LISTINGS);
 
-  const deleteListing = async () => {
-    const { data } = await server.fetch<
-      DeleteListingData,
-      DeleteListingVariables
-    >({
+  const deleteListing = async (id: string) => {
+    await server.fetch<DeleteListingData, DeleteListingVariables>({
       query: DELETE_LISTING,
       variables: {
-        id: '5d4507a9cf295034813b35c2', // hardcoded id variable,
+        id,
       },
     });
-    console.log(data); // check the console to see the result of the mutation!
+    refetch();
   };
+
+  const listings = data ? data.listings : null;
+
+  const listingsList = listings ? (
+    <ul>
+      {listings.map((listing) => {
+        return (
+          <li key={listing.id}>
+            {listing.title}{' '}
+            <button onClick={() => deleteListing(listing.id)}>Delete</button>
+          </li>
+        );
+      })}
+    </ul>
+  ) : null;
 
   return (
     <div>
       <h2>{title}</h2>
-      <button onClick={fetchListings}>Query Listings!</button>
-      <button onClick={deleteListing}>Delete a listing!</button>
+      {listingsList}
     </div>
   );
 };
