@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Listings } from './sections';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import './styles/index.css';
 
 const client = new ApolloClient({ uri: '/api', cache: new InMemoryCache() });
 
