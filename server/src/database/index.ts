@@ -1,6 +1,9 @@
 const MongoClient = require('mongodb').MongoClient;
 
-import { Database } from '../lib/types';
+import {
+  Database,
+  // Booking, Listing, User
+} from '../lib/types';
 
 const user = process.env.DB_USER;
 const userPassword = process.env.DB_USER_PASSWORD;
@@ -15,6 +18,8 @@ export const connectDatabase = async (): Promise<Database> => {
   const db = client.db('main');
 
   return {
-    listings: db.collection('test_listings'),
+    bookings: db.collection('bookings'),
+    listings: db.collection('listings'),
+    users: db.collection('users'),
   };
 };
