@@ -2,7 +2,7 @@ const MongoClient = require('mongodb').MongoClient;
 
 import {
   Database,
-  // Booking, Listing, User
+  // Booking, Listing, User //db.collection is an untyped function
 } from '../lib/types';
 
 const user = process.env.DB_USER;
