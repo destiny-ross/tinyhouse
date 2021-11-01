@@ -4,7 +4,7 @@ export const typeDefs = gql`
   type Booking {
     id: ID!
     listing: Listing!
-    tentant: User!
+    tenant: User!
     checkIn: String!
     checkOut: String!
   }
