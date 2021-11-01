@@ -12,7 +12,7 @@ import {
   NotFound,
   User,
 } from './sections';
-import { AppHeaderSkeleton, ErrorBanner } from './lib/components';
+import { AppHeaderSkeleton } from './lib/components';
 import { LOG_IN } from './lib/graphql/mutations';
 import {
   LogIn as LogInData,
@@ -82,9 +82,6 @@ const App = () => {
       </div>
     </Layout>;
   }
-  const logInErrorBannerElement = error ? (
-    <ErrorBanner description="We weren't able to verify if you were logged in. Please try again later." />
-  ) : null;
 
   return (
     <Router>
