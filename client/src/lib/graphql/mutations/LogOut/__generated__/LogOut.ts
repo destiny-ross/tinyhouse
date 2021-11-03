@@ -13,7 +13,7 @@ export interface LogOut_logOut {
   token: string | null;
   avatar: string | null;
   hasWallet: boolean | null;
-  didRequest: boolean | null;
+  didRequest: boolean;
 }
 
 export interface LogOut {
