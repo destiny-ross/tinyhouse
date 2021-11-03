@@ -8,6 +8,7 @@ export const typeDefs = gql`
     checkIn: String!
     checkOut: String!
   }
+
   type Bookings {
     total: Int!
     result: [Booking!]!
@@ -31,14 +32,17 @@ export const typeDefs = gql`
     host: User!
     type: ListingType!
     address: String!
+    country: String!
+    admin: String!
     city: String!
-    bookings(limit: Int!, page: Int): Bookings
+    bookings(limit: Int!, page: Int!): Bookings
     bookingsIndex: String!
     price: Int!
     numOfGuests: Int!
   }
 
   type Listings {
+    region: String
     total: Int!
     result: [Listing!]!
   }
@@ -59,18 +63,23 @@ export const typeDefs = gql`
     token: String
     avatar: String
     hasWallet: Boolean
-    didRequest: Boolean
+    didRequest: Boolean!
+  }
+
+  input LogInInput {
+    code: String!
   }
 
   type Query {
     authUrl: String!
     user(id: ID!): User!
     listing(id: ID!): Listing!
-    listings(filter: ListingsFilter!, limit: Int!, page: Int!): Listings!
-  }
-
-  input LogInInput {
-    code: String!
+    listings(
+      location: String
+      filter: ListingsFilter!
+      limit: Int!
+      page: Int!
+    ): Listings!
   }
 
   type Mutation {
