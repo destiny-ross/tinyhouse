@@ -10,6 +10,7 @@ import {
   Listings,
   Login,
   NotFound,
+  Stripe,
   User,
 } from './sections';
 import { AppHeaderSkeleton } from './lib/components';
@@ -98,6 +99,13 @@ const App = () => {
             exact
             path="/login"
             render={(props) => <Login {...props} setViewer={setViewer} />}
+          />
+          <Route
+            exact
+            path="/stripe"
+            render={(props) => (
+              <Stripe {...props} viewer={viewer} setViewer={setViewer} />
+            )}
           />
           <Route
             exact
