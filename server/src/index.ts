@@ -10,6 +10,7 @@ const startExpressApolloServer = async () => {
   const db = await connectDatabase();
 
   const app = express();
+  app.use(express.json({ limit: '2mb' }));
   app.use(cookieParser(process.env.SECRET));
 
   const server = new ApolloServer({
