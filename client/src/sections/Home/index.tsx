@@ -10,6 +10,7 @@ import {
 import { ListingsFilter } from '../../lib/graphql/globalTypes';
 import { displayErrorMessage } from '../../lib/utils';
 import { HomeHero, HomeListings, HomeListingsSkeleton } from './components';
+import { useScrollToTop } from '../../lib/hooks';
 
 import mapBackground from './assets/map-background.jpg';
 import sanFransiscoImage from './assets/san-fransisco.jpg';
@@ -22,6 +23,7 @@ const PAGE_LIMIT = 4;
 const PAGE_NUMBER = 1;
 
 export const Home = ({ history }: RouteComponentProps) => {
+  useScrollToTop();
   const { loading, data } = useQuery<ListingsData, ListingsVariables>(
     LISTINGS,
     {

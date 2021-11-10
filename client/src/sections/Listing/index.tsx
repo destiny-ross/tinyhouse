@@ -16,6 +16,7 @@ import {
   WrappedListingCreateBookingModal as ListingCreateBookingModal,
   ListingDetails,
 } from './components';
+import { useScrollToTop } from '../../lib/hooks';
 
 interface MatchParams {
   id: string;
@@ -32,6 +33,8 @@ export const Listing = ({
   viewer,
   match,
 }: Props & RouteComponentProps<MatchParams>) => {
+  useScrollToTop();
+  
   const [bookingsPage, setBookingsPage] = useState(1);
   const [checkInDate, setCheckInDate] = useState<Moment | null>(null);
   const [checkOutDate, setCheckOutDate] = useState<Moment | null>(null);

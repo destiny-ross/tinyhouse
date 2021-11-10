@@ -30,6 +30,7 @@ import {
   HostListing as HostListingData,
   HostListingVariables,
 } from '../../lib/graphql/mutations/HostListing/__generated__/HostListing';
+import { useScrollToTop } from '../../lib/hooks';
 
 interface Props {
   viewer: Viewer;
@@ -40,6 +41,8 @@ const { Text, Title } = Typography;
 const { Item } = Form;
 
 export const Host = ({ viewer }: Props) => {
+  useScrollToTop();
+  
   const [imageLoading, setImageLoading] = useState(false);
   const [imageBase64Value, setImageBase64Value] = useState<string | null>(null);
   const [form] = Form.useForm();

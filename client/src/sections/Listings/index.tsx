@@ -14,6 +14,7 @@ import {
   ListingsPagination,
   ListingsSkeleton,
 } from './components';
+import { useScrollToTop } from '../../lib/hooks';
 
 interface MatchParams {
   location: string;
@@ -25,6 +26,7 @@ const { Paragraph, Text, Title } = Typography;
 const PAGE_LIMIT = 8;
 
 export const Listings = ({ match }: RouteComponentProps<MatchParams>) => {
+  useScrollToTop();
   const locationRef = useRef(match.params.location);
   const [filter, setFilter] = useState(ListingsFilter.PRICE_LOW_TO_HIGH);
   const [page, setPage] = useState(1);

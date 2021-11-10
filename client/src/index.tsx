@@ -29,6 +29,7 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { Viewer } from './lib/types';
+
 import './styles/index.css';
 
 const httpLink = new HttpLink({ uri: '/api' });
