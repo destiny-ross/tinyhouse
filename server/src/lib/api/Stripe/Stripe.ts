@@ -17,21 +17,25 @@ export const Stripe = {
   },
   charge: async (amount: number, source: string, stripeAccount: string) => {
     /* eslint-disable @typescript-eslint/camelcase */
-    const res = await client.charges.create(
-      {
-        amount,
-        currency: 'usd',
-        source,
-        application_fee_amount: Math.round(amount * 0.05),
-      },
-      {
-        stripe_account: stripeAccount,
-      }
-    );
-    /* eslint-enable @typescript-eslint/camelcase */
+    try {
+      const res = await client.charges.create(
+        {
+          amount,
+          currency: 'usd',
+          source,
+          application_fee_amount: Math.round(amount * 0.05),
+        },
+        {
+          stripeAccount: stripeAccount,
+        }
+      );
+      /* eslint-enable @typescript-eslint/camelcase */
 
-    if (res.status !== 'succeeded') {
-      throw new Error('failed to create charge with Stripe');
+      if (res.status !== 'succeeded') {
+        throw new Error('failed to create charge with Stripe');
+      }
+    } catch (err) {
+      console.log(err);
     }
   },
 };

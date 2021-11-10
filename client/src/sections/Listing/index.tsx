@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { Col, Row, Layout } from 'antd';
+import { Col, Layout, Row } from 'antd';
 import { Moment } from 'moment';
 import { ErrorBanner, PageSkeleton } from '../../lib/components';
 import { LISTING } from '../../lib/graphql/queries';
@@ -9,23 +9,24 @@ import {
   Listing as ListingData,
   ListingVariables,
 } from '../../lib/graphql/queries/Listing/__generated__/Listing';
+import { Viewer } from '../../lib/types';
 import {
   ListingBookings,
   ListingCreateBooking,
-  ListingCreateBookingModal,
+  WrappedListingCreateBookingModal as ListingCreateBookingModal,
   ListingDetails,
 } from './components';
-import { Viewer } from '../../lib/types';
 
 interface MatchParams {
   id: string;
 }
 
-const { Content } = Layout;
-const PAGE_LIMIT = 3;
 interface Props {
   viewer: Viewer;
 }
+
+const { Content } = Layout;
+const PAGE_LIMIT = 3;
 
 export const Listing = ({
   viewer,
@@ -36,16 +37,26 @@ export const Listing = ({
   const [checkOutDate, setCheckOutDate] = useState<Moment | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const { loading, data, error } = useQuery<ListingData, ListingVariables>(
-    LISTING,
-    {
-      variables: {
-        id: match.params.id,
-        bookingsPage,
-        limit: PAGE_LIMIT,
-      },
-    }
-  );
+  const { loading, data, error, refetch } = useQuery<
+    ListingData,
+    ListingVariables
+  >(LISTING, {
+    variables: {
+      id: match.params.id,
+      bookingsPage,
+      limit: PAGE_LIMIT,
+    },
+  });
+
+  const clearBookingData = () => {
+    setModalVisible(false);
+    setCheckInDate(null);
+    setCheckOutDate(null);
+  };
+
+  const handleListingRefetch = async () => {
+    await refetch();
+  };
 
   if (loading) {
     return (
@@ -57,8 +68,8 @@ export const Listing = ({
 
   if (error) {
     return (
-      <Content className="listing">
-        <ErrorBanner description="This listing may not exist or we've encountered an error. Please try again soon." />
+      <Content className="listings">
+        <ErrorBanner description="This listing may not exist or we've encountered an error. Please try again soon!" />
         <PageSkeleton />
       </Content>
     );
@@ -97,11 +108,14 @@ export const Listing = ({
   const listingCreateBookingModalElement =
     listing && checkInDate && checkOutDate ? (
       <ListingCreateBookingModal
+        id={listing.id}
         price={listing.price}
         modalVisible={modalVisible}
         checkInDate={checkInDate}
         checkOutDate={checkOutDate}
         setModalVisible={setModalVisible}
+        clearBookingData={clearBookingData}
+        handleListingRefetch={handleListingRefetch}
       />
     ) : null;
 
